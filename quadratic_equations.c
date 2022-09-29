@@ -4,10 +4,10 @@
 #include<conio.h>
 #include<math.h>
 
-void main(){
+void main()
+{
 int aQ, bQ, cQ;
 float x1,x2,dQ,dl;
-
 clrscr();
 printf("Program for Roots of Quad Equation...\n\nEnter values for a,b and c: ");
 scanf("%d %d %d", &aQ, &bQ, &cQ);
@@ -38,3 +38,4 @@ if (dQ>0)
 printf(Root x1=%f\n",x1);
 printf(Root x2=%f\n",x2);
 getch();
+}
