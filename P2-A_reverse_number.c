@@ -6,17 +6,16 @@
 void main()
 {
 int nR, reverse=0, rm;
-clrscr();
 printf("Program for reversing a number...\n\nEnter 2 digit number: ");
 scanf("%d", &nR);
 
-while(n!=0)
+while(nR!=0)
 {
- rm=n%10;
+ rm=nR%10;
  reverse=reverse*10+rm;
- n/=10
+ nR/=10;
 }
 
-printf("Reversed Number = %d". reverse);
+printf("Reversed Number = %d", reverse);
 getch();
 }
