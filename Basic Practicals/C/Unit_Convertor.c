@@ -18,9 +18,9 @@ int main() {
   //conversion
   int fahrenheitToCelcius;
   int celciusToFahrenheit;
-  float USDtoEURO ; 
-  float USDtoJPY; 
-  float USDtoRMB; 
+  float USDtoEURO; 
+  float USDtoINR; 
+  float EUROtoINR; 
   float KgToPounds;
   float PoundsToKg;
   
@@ -58,20 +58,20 @@ int main() {
       if(currencyChoice == 1){
           printf("Please enter the USD amount: \n");
           scanf("%d",&userinputUSDtoEuro);
-          USDtoEURO = userinputUSDtoEuro * 0.87;
+          USDtoEURO = userinputUSDtoEuro * 0.95; // Variable Rate.
           printf("Euro: %.2f",USDtoEURO); // Using %.2f to round the float to only 2 decimal places;
       }
       else if(currencyChoice == 2){
           printf("Please enter the USD amount: \n");
           scanf("%d",&userinputUSDtoINR);
-          USDtoJPY = userinputUSDtoINR * 79.42;
-          printf("INR: %.2f",USDtoJPY);
+          USDtoINR = userinputUSDtoINR * 82.80; // Variable Rate.
+          printf("INR: %.2f",USDtoINR);
       }
       else if(currencyChoice == 3) {
         printf("Please enter the USD amount: \n");
         scanf("%d",&userinputEurotoINR);
-        USDtoRMB = userinputEurotoINR * 79.37;
-        printf("INR: %.2f",USDtoRMB);
+        EUROtoINR = userinputEurotoINR * 88.35; // Variable Rate.
+        printf("INR: %.2f",EUROtoINR);
       }
       else
         printf("Please choose the correct option. \n");
