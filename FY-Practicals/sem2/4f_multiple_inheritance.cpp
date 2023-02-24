@@ -1,26 +1,29 @@
+//4f multiple
+
 #include <conio.h>
 #include <iostream>
 using namespace std;
 
-class base{
+class base1{
     public:
     int x;
-    void getData() {
+    void getDatax() {
         cout<<"enter value of x = ";
         cin>>x;
     }
 };
 
-class derive:public base{
-    private:
-    int y;
-    
+class base2{
     public:
-    void readData() {
-        cout<<"Enter y: ";
+    int y;
+    void getDatay() {
+        cout<<"Enter value of y: ";
         cin>>y;
     }
+};
 
+class derive:public base1,public base2{    
+    public:
     void product() {
         cout<<"product = "<<x*y;
     }
@@ -28,8 +31,8 @@ class derive:public base{
 
 int main() {
     derive a;
-    a.getData();
-    a.readData();
+    a.getDatax();
+    a.getDatay();
     a.product();
     return 0;
     getch();
