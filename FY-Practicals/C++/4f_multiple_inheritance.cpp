@@ -6,26 +6,28 @@ using namespace std;
 
 class base1{
     public:
-    int x;
+    int a1,a2;
     void getDatax() {
-        cout<<"enter value of x = ";
-        cin>>x;
+        cout<<"enter marks of eng and hindi = ";
+        cin>>a1>>a2;
     }
 };
 
 class base2{
     public:
-    int y;
+    int a3,a4,a5;
     void getDatay() {
-        cout<<"Enter value of y: ";
-        cin>>y;
-    }
+        cout<<"enter marks of sci, hist and marathi = ";
+        cin>>a3>>a4>>a5;
+        }
 };
 
 class derive:public base1,public base2{    
     public:
+    float avg;
     void product() {
-        cout<<"product = "<<x*y;
+        avg=a1+a2+a3+a4+a5/5;
+        cout<<"Avg = "<<avg;
     }
 };
 
