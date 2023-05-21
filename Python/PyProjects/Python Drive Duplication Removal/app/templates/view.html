@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-14">
+  <h3 class="title">Uploaded File</h3>
+  <div class="box" style="margin-left:25%; width: 50%;">
+    <table class="table is-hoverable is-fullwidth">
+      <thead> 
+        <tr">     
+          <th>Sr. No.</th> 
+          <th>Files</th>
+          <th></th> 
+        </tr>   
+      </thead> 
+      <tbody>
+      {% for file in files %}
+      <tr>
+        <th>{{ loop.index }}</th>
+        <td>{{ file.fileName }}</td>
+        <form method="POST" action="/download/1">
+          <td>
+            <input type="hidden" value="{{ file.mapped_id }}" name="mapped_id" />
+            <button class="button is-link is-outlined" type="submit" download="file.fileName">Download</button>
+          </td>
+       </form> 
+      </tr>
+      {%endfor%}
+    </tbody> 
+    </table>
+  </div>
+</div>
+
+{% endblock %}

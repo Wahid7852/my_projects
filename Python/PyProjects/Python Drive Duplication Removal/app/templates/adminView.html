@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="message is-dark">
+    <div class="message-header">
+      <p>Users</p>
+    </div>
+    <div class="message-body">
+        <div class="table-container">
+            <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+                <thead> 
+                    <tr>     
+                        <th>Sr. No.</th> 
+                        <th>Username</th>
+                        <th>Email</th> 
+                        <th></th> 
+                    </tr>   
+                </thead> 
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <form method="" action="#">
+                            <td>
+                            <input type="hidden" value="{{ users.id }}" name="id" />
+                            <button class="button is-link is-danger is-outlined" type="submit">Delete</button>
+                            </td>
+                        </form> 
+                    </tr>
+                    {% endfor %}
+                </tbody> 
+            </table>
+        </div>
+    </div>
+  </article>
+  
+  <article class="message is-dark">
+    <div class="message-header">
+      <p>Original Files</p>
+    </div>
+    <div class="message-body">
+        <div class="table-container">
+            <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+                <thead> 
+                    <tr>     
+                        <th>Sr. No.</th> 
+                        <th>File ID</th>
+                        <th>File Name</th> 
+                        <th></th> 
+                        <th></th> 
+                    </tr>   
+                </thead> 
+                <tbody>
+                    {% for file in originalFiles %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <td>{{ file.file_id }}</td>
+                        <td>{{ file.fileName }}</td>
+                        <form method="POST" action="/download/0">
+                            <td>
+                                <input type="hidden" value="{{ file.file_id }}" name="file_id" />
+                                <button class="button is-link is-outlined" type="submit" download="files.fileName">Download</button>
+                            </td>
+                        </form> 
+                        <form method="" action="#">
+                            <td>
+                            <input type="hidden" value="{{ users.id }}" name="id" />
+                            <button class="button is-link is-danger is-outlined" type="submit">Delete</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody> 
+            </table>
+        </div>
+    </div>
+  </article>
+
+  <article class="message is-dark">
+    <div class="message-header">
+      <p>Mapped Files</p>
+    </div>
+    <div class="message-body">
+        <div class="table-container">
+            <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+                <thead> 
+                    <tr>     
+                        <th>Sr. No.</th> 
+                        <th>Uploaded File ID</th>
+                        <th>Uploaded By User(ID)</th> 
+                        <th>File Name</th> 
+                        <th>Original File ID (Mapped)</th> 
+                        <th></th> 
+                        <th></th> 
+                    </tr>   
+                </thead> 
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <td>{{ file.mapped_id }}</td>
+                        <td>{{ file.user_id }}</td>
+                        <td>{{ file.fileName }}</td>
+                        <td>{{ file.original_id }}</td>
+                        <form method="POST" action="/download/1">
+                            <td>
+                                <input type="hidden" value="{{ file.mapped_id }}" name="mapped_id" />
+                                <button class="button is-link is-outlined" type="submit" download="files.fileName">Download</button>
+                            </td>
+                        </form> 
+                        <form method="" action="#">
+                            <td>
+                            <input type="hidden" value="{{ users.id }}" name="id" />
+                            <button class="button is-link is-danger is-outlined" type="submit">Delete</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody> 
+            </table>
+        </div>
+    </div>
+  </article>
+{% endblock %}

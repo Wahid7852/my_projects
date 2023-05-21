@@ -1,0 +1,78 @@
+Structures (also called structs) are a way to group several related variables into one place. Each variable in the structure is known as a member of the structure.
+
+Unlike an array, a structure can contain many different data types (int, float, char, etc.).
+
+syntax :-
+struct StructureName{ #struct and name of the structure to define the structure
+int a; #member
+char b;
+}
+
+Example : 
+
+// Create a structure called myStructure
+struct myStructure {
+  int myNum;
+  char myLetter;
+};
+
+int main() {
+  // Create a structure variable of myStructure called s1
+  struct myStructure s1;
+
+  // Assign values to members of s1
+  s1.myNum = 13;
+  s1.myLetter = 'B';
+
+  // Print values
+  printf("My number: %d\n", s1.myNum);
+  printf("My letter: %c\n", s1.myLetter);
+
+  return 0;
+}
+
+
+
+
+2) Structure With Functions
+
+#include <stdio.h>
+struct student {
+   char name[50];
+   int age;
+};
+
+// function prototype
+void display(struct student s);
+
+int main() {
+   struct student s1;
+
+   printf("Enter name: ");
+
+   // read string input from the user until \n is entered
+   // \n is discarded
+   scanf("%[^\n]%*c", s1.name);
+
+   printf("Enter age: ");
+   scanf("%d", &s1.age);
+
+   display(s1); // passing struct as an argument
+
+   return 0;
+}
+
+void display(struct student s) {
+   printf("\nDisplaying information\n");
+   printf("Name: %s", s.name);
+   printf("\nAge: %d", s.age);
+}
+
+Output :
+
+Enter name: Bond
+Enter age: 13
+
+Displaying information
+Name: Bond
+Age: 13 

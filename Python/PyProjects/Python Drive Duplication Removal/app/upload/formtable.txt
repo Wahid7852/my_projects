@@ -1,0 +1,379 @@
+<template>
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-3">
+                <div class="col my-4">
+                    <div class="card">
+                        <div class="mb-3">
+                            <h4>Select Form</h4>
+                        </div>
+                        <Listbox v-model="selectedCountries" :options="form_name" :filter="true" optionLabel="name"
+                            filterPlaceholder="Search">
+                            <template #option="slotProps">
+                                <!-- <div class="country-item"> -->
+                                <div>
+                                    <input type="checkbox"
+                                        @click="listformsData(slotProps.option.id, slotProps.option.name)"> &nbsp; {{
+                                                slotProps.option.name
+                                        }}
+                                </div>
+                                <!-- </div> -->
+                            </template>
+                        </Listbox>
+                        <div class="mt-4">
+                            <button class="btn btn-primary" @click="submitForm">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 table-responsive">
+                <div class="row border mt-2">
+                    <div class="col-12 overflow-scroll placeholder-glow">
+                        <div class="row vw-100">
+                            <div :class="loading == true ? 'col-2 border placeholder' : 'col-2 border'">
+
+                            </div>
+                            <div :class="loading == true ? 'col small border placeholder' : 'col small border'"
+                                style="max-width:100px" v-for="(timeing, index) in time" :key="timeing">
+                                <input class="form-control" type="text" v-if="hideTimeInput[timeing.header] == true"
+                                    v-model="time[index].header" />
+                                <input type="button" class="btn btn-primary"
+                                    v-if="hideTimeInput[timeing.header] == true"
+                                    @click="hideTimeInput[timeing.header] = false" value="ok" />
+                                <span @click="hideTimeInput[timeing.header] = true" :id="'T_' + index"
+                                    v-if="hideTimeInput[timeing.header] != true">
+                                    {{ timeing.header }}
+                                </span>
+                            </div>
+                            <div>
+                                <div class="row m-0 p-0 Odd-Evens bg-secondary" v-for="param in selected_form_name"
+                                    :key="param">
+                                    <div class="col-12 bg-darkblue-custom text-white fs-5">
+                                        {{ param.name }}
+                                    </div>
+
+                                    <div v-for="data in parameters[param.name]" :key="data"
+                                        :class="index % 2 == 0 ? 'row m-0 p-0 even' : 'row m-0 p-0 odd'">
+                                        <select id="selectInput" v-model="dropdown_data_value[data]">
+                                            <option value="" disabled>Select</option>
+                                            <option v-for="i in dropdown_data" :key="i" :value="i"><span>{{ i }}</span>
+                                            </option>
+                                        </select>
+                                        <div class="col-2 border">
+                                            {{ data }}
+                                        </div>
+                                        <div class="col small border text-center p-1 overflow-hidden"
+                                            v-for="(data2, count) in countTime" :key="count">
+                                            <div>
+                                                <select
+                                                    :disabled="disabled['D_' + param.name + '_' + data + '_' + data2] ? true : false"
+                                                    id="selectInput"
+                                                    @change="addTotal(inputDropDown[param.name + '_' + data + '_' + data2], 'D_' + param.name + '_' + data + '_' + data2, count, param.id)"
+                                                    v-model="inputDropDown[param.name + '_' + data + '_' + data2]"
+                                                    v-show="dropdown_data_value[data] && dropdown_data_value[data] != 'dropdown' && dropdown_data_value[data] != 'multi_select'"
+                                                    :title="inputDropDown[param.name + '_' + data + '_' + data2] ? inputDropDown[param.name + '_' + data + '_' + data2].criteria + ' &nbsp; Score: ' + inputDropDown[param.name + '_' + data + '_' + data2].score : 'Select'">
+                                                    <option value="" disabled>Select</option>
+                                                    <option v-for="i in form_data[param.name]" :key="i.id"
+                                                        v-show="i.parameters == data" :value="i">
+
+                                                        <span>{{ i[dropdown_data_value[data]] }}</span>
+                                                    </option>
+
+                                                </select>
+                                                <select id="selectInput"
+                                                    :disabled="disabled['D_' + param.name + '_' + data + '_' + data2] ? true : false"
+                                                    @change="addTotal(inputDropDown[param.name + '_' + data + '_' + data2], 'D_' + param.name + '_' + data + '_' + data2, count, param.id)"
+                                                    v-model="inputDropDown[param.name + '_' + data + '_' + data2]"
+                                                    :title="inputDropDown[param.name + '_' + data + '_' + data2] ? inputDropDown[param.name + '_' + data + '_' + data2] + ' &nbsp; Score: ' + inputDropDown[param.name + '_' + data + '_' + data2].score : 'Select'"
+                                                    v-show="dropdown_data_value[data] == 'dropdown'">
+                                                    <option value="" disabled>Select</option>
+                                                    <option v-for="i in dropdown_content_for_param[data]" :key="i"
+                                                        :value="i">
+                                                        <!-- <span v-if="dropdown_data_value[data] == 'dropdown' && i[dropdown_data_value[data]]" ><span v-for="j in i[dropdown_data_value[data]].toString().split(', ')" :key="j">{{ j }}</span></span> -->
+                                                        <span>{{ i }}</span>
+                                                    </option>
+                                                </select>
+                                                <select id="selectInput"
+                                                    @change="addTotal(inputDropDown[param.name + '_' + data + '_' + data2], 'D_' + param.name + '_' + data + '_' + data2, count, param.id)"
+                                                    v-model="inputDropDown[param.name + '_' + data + '_' + data2]"
+                                                    :title="inputDropDown[param.name + '_' + data + '_' + data2] ? inputDropDown[param.name + '_' + data + '_' + data2] + ' &nbsp; Score: ' + inputDropDown[param.name + '_' + data + '_' + data2].score : 'Select'"
+                                                    v-show="dropdown_data_value[data] == 'multi_select'" multiple>
+                                                    <option value="" disabled>Select</option>
+                                                    <option v-for="i in multi_select_content_for_param[data]" :key="i"
+                                                        :value="i">
+                                                        <!-- <span v-if="dropdown_data_value[data] == 'dropdown' && i[dropdown_data_value[data]]" ><span v-for="j in i[dropdown_data_value[data]].toString().split(', ')" :key="j">{{ j }}</span></span> -->
+                                                        {{ i }}
+                                                    </option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    total : {{ total }}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { ref, onMounted } from 'vue';
+import { useRoute } from "vue-router";
+// import ProductService from './service/ProductService';
+import Forms from '@/services/FormGen/Form'
+import moment from 'moment';
+export default {
+    setup() {
+        let todayDate = ref(moment().format('YYYY-MM-DD'));
+        let inputDropDown = ref({});
+        let inputDropDownData = ref({});
+        let hideDropdown = ref({});
+        let hideTimeInput = ref({});
+        let hideMultiselc = ref({});
+        let fromdata_table = ref([]);
+        let loading = ref();
+        let dropdown_data_value = ref({});
+        let disabled = ref({});
+        let dropdown_data = ref([]);
+        let report_data = ref([{}]);
+        const changeDropDown = (count, text, criteria, parameters) => {
+            console.log(count);
+            let time = document.getElementById('T_' + count).innerText;
+            console.log(time);
+            fromdata_table.value.push({ 'time': time, 'text': text, 'parameters': parameters, 'criteria': criteria, 'form': form_id.value, 'encounter': encounter.value });
+
+            // console.log(event.currentTarget.id);
+        }
+        let time = ref([
+            { header: '12:00 - 13:00', field: '' },
+            { header: '13:00 - 14:00', field: '' },
+            { header: '14:00 - 15:00', field: '' },
+            { header: '15:00 - 16:00', field: '' },
+            { header: '16:00 - 17:00', field: '' },
+            { header: '17:00 - 18:00', field: '' },
+            { header: '18:00 - 19:00', field: '' },
+            { header: '19:00 - 20:00', field: '' },
+            { header: '20:00 - 21:00', field: '' },
+            { header: '21:00 - 22:00', field: '' },
+            { header: '22:00 - 23:00', field: '' },
+            { header: '23:00 - 24:00', field: '' },
+            { header: '12:00 - 1:00', field: '' },
+            { header: '1:00 - 2:00', field: '' },
+            { header: '2:00 - 3:00', field: '' },
+            { header: '3:00 - 4:00', field: '' },
+            { header: '4:00 - 5:00', field: '' },
+            { header: '5:00 - 6:00', field: '' },
+            { header: '6:00 - 7:00', field: '' },
+            { header: '7:00 - 8:00', field: '' },
+            { header: '8:00 - 9:00', field: '' },
+            { header: '9:00 - 10:00', field: '' },
+            { header: '10:00 - 11:00', field: '' },
+            { header: '11:00 - 12:00', field: '' }]
+        )
+        let countTime = ref(time.value.length)
+
+        let form_data = ref({});
+        let form_data_name = ref({});
+        let form_name = ref({});
+        let parameters = ref({});
+        let is_free_text = ref(false);
+        let total = ref();
+        let selected_inputs = ref([]);
+        let encounter = ref();
+        let selected_form_name = ref([]);
+        let count = ref({});
+        let arr = [];
+        let show = ref('');
+        let form_id = ref();
+        let form_name_data = ref();
+        let temp = ref([]);
+        let dropdown_content_for_param = ref({});
+        let multi_select_content_for_param = ref({});
+        let checked = ref({
+
+        })
+
+        const check_handling = (data) => {
+            let id = document.getElementById('check_' + data)
+            if (id.checked == true) {
+                selected_inputs.value.push(data);
+            }
+            else {
+                selected_inputs.value = selected_inputs.value.filter((fil) => fil != data)
+            }
+        }
+        onMounted(() => {
+            const {
+                params: { id },
+            } = useRoute();
+            encounter.value = id;
+            listForms();
+        })
+        const addTotal = (val, id, count, form_id, text) => {
+            disabled.value[id] = true;
+            // console.log(disabled.value)
+            // disabled.value = true;
+            temp.value.push(parseInt(val.score));
+            total.value = temp.value.reduce((a, b) => a + b, 0);
+
+            // console.log(count);
+            let time = document.getElementById('T_' + count).innerText;
+            // console.log(time);
+            fromdata_table.value.push({ 'time': time, 'text': text ? text : null, 'parameters': val.parameters, 'criteria': val.criteria, 'form': form_id, 'encounter': encounter.value, 'total': total.value });
+            // dropdown_data_value.value = null;
+        }
+        const submitForm = () => {
+            let form = new Forms();
+            form.AddreportTable(fromdata_table.value).then(() => {
+
+            })
+        }
+        const listformsData = (id, name) => {
+            loading.value = true;
+            total.value = 0;
+            temp.value = [];
+            selected_form_name.value.push({ 'name': name, 'id': id });
+            form_id.value = id;
+            count.value = {};
+            let form = new Forms();
+            form.Listform(id).then((response => {
+                form_data.value[name] = (response.data);
+                console.log(form_data.value, 'Form =============');
+                parameters.value[name] = [];
+                form_data.value[name].map((x => {
+                    parameters.value[name].push(x.parameters);
+                    console.log(x.dropdown, '-------------------')
+                    dropdown_data.value.push(x.criteria ? 'criteria' : null, x.text ? 'text' : null, x.dropdown ? 'dropdown' : null, x.multi_select ? 'multi_select' : null)
+                    dropdown_data.value = dropdown_data.value.filter((fil) => fil != null)
+                    dropdown_data.value = [...new Set(dropdown_data.value)]
+                    if (x.dropdown && x.dropdown.length > 0) {
+                        dropdown_content_for_param.value[x.parameters] = x.dropdown;
+                        console.log(dropdown_content_for_param.value, '000000000000000')
+                    }
+                    if (x.multi_select && x.multi_select.length > 0) {
+                        multi_select_content_for_param.value[x.parameters] = x.dropdown;
+                        console.log(dropdown_content_for_param.value, '000000000000000')
+                    }
+
+
+                }))
+                parameters.value[name] = [...new Set(parameters.value[name])]
+                // console.log(form_data.value)
+
+                for (let j = 0; j < form_data.value[name].length; j++) {
+                    arr.push(form_data.value[name][j].parameters);
+                }
+                const seen = new Set();
+                const duplicates = arr.filter(n => seen.size === seen.add(n).size);
+                console.log(duplicates);
+                console.log(duplicates.length);
+                duplicates.forEach(element => {
+                    count.value[element] = (count.value[element] || 0) + 1;
+                });
+                loading.value = false;
+            }))
+
+        }
+        let random = Math;
+
+
+
+
+        const AddFormDetails = () => {
+            let form = new Forms();
+            report_data.value.total = total.value;
+            report_data.value.form = form_id.value;
+            report_data.value.encounter = encounter.value;
+            form.Addreport(report_data.value).then((() => {
+                show.value = 'show';
+                checked.value = {};
+                total.value = 0;
+                temp.value = [];
+
+            }))
+        }
+        const addFormName = () => {
+            let form = new Forms();
+            form.Addform_name(form_name_data.value).then((() => {
+                listForms();
+            }))
+        }
+
+        const listForms = () => {
+            form_name.value = [
+            ];
+            let form = new Forms();
+            form.Listform_name().then((response => {
+                // let { data } = response.data;
+                response.data.map((x => {
+                    form_name.value.push({
+                        'name': x.name,
+                        'id': x.id,
+                    });
+
+                }))
+            }))
+        }
+
+        return {
+            // columns,
+            todayDate,
+            time,
+            listForms,
+            listformsData,
+            form_data,
+            form_name,
+            parameters,
+            count,
+            is_free_text,
+            selected_form_name,
+            total,
+            addTotal,
+            report_data,
+            form_id,
+            encounter,
+            AddFormDetails,
+            checked,
+            countTime,
+            show,
+            selected_inputs,
+            check_handling,
+            addFormName,
+            form_name_data,
+            form_data_name,
+            inputDropDown,
+            hideDropdown,
+            hideMultiselc,
+            random,
+            changeDropDown,
+            inputDropDownData,
+            hideTimeInput,
+            fromdata_table,
+            submitForm,
+            disabled,
+            loading,
+            dropdown_data,
+            dropdown_data_value,
+            dropdown_content_for_param,
+            multi_select_content_for_param,
+        }
+    }
+}
+</script>
+<style>
+.p-hidden-accessible {
+    display: none;
+}
+
+.vw-100 {
+    width: 70%;
+}
+
+.even {
+    background-color: beige !important;
+}
+</style>

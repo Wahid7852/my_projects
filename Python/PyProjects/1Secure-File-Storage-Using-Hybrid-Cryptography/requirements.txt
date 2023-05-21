@@ -1,0 +1,10 @@
+itsdangerous==2.0.1
+Jinja2==3.0.3
+cryptography==3.3.2
+Flask==1.1.1
+Flask-Cache==0.13.1
+Flask-Markdown==0.3
+Flask-MySQLdb==0.2.0
+Flask-WeasyPrint==0.6
+Werkzeug==1.0.1
+gunicorn==19.9.0 
