@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Software Piracy Prevention System - {{ page_name }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href={% static 'css/open-iconic-bootstrap.min.css' %}>
+    <link rel="stylesheet" href={% static "css/animate.css" %}>
+    <link rel="stylesheet" href={% static "css/owl.carousel.min.css" %}>
+    <link rel="stylesheet" href={% static "css/owl.theme.default.min.css" %}>
+    <link rel="stylesheet" href={% static "css/magnific-popup.css" %}>
+    <link rel="stylesheet" href={% static "css/aos.css" %}>
+    <link rel="stylesheet" href={% static "css/ionicons.min.css" %}>    
+    <link rel="stylesheet" href={% static "css/flaticon.css" %}>
+    <link rel="stylesheet" href={% static "css/icomoon.css" %}>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {% include './logout.html'%}
+    {% else %}
+        {% include './login.html'%}
+    {% endif %}
+    
+<div id=cover></div>
+    <div class="bg-top navbar-light d-flex flex-column-reverse">
+      <div class="container py-3">
+        <div class="row no-gutters d-flex align-items-center align-items-stretch">
+          <div class="col-md-4 d-flex align-items-center py-4">
+            <a class="navbar-brand" href="home">Software Piracy Prevention <span>Software Developers</span></a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav mr-auto">
+            {% block active%}
+            {% endblock%}
+          </ul>
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item" ><button onclick="document.getElementById('logoutScreen').style.display='block'" class="nav-link btn btn-secondary py-3 px-4">Hi {{ user.name }}!</button></li>
+            {% else %}
+            <li class="nav-item"><button onclick="document.getElementById('loginScreen').style.display='block'" class="nav-link btn btn-secondary py-3 px-4">Login</button></li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    {% block display %}
+    {% endblock%}
+    
+    {% block content %}
+    {% endblock %}
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+      <h2 class="ftco-heading-2" style="color: white">Have Questions?</h2>
+      <div class="block-23 mb-3" style="margin-left: 10%">
+        <ul>
+            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">wahidzk0091@gmail.com</span></a></li>
+        </ul>
+        
+        <ul style="margin-left: 70%">
+    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved </p>
+    </ul>
+        </div>
+        
+    </footer>
+
+<script src={% static "js/jquery.min.js" %}></script>
+<script src={% static "js/jquery-migrate-3.0.1.min.js" %}></script>
+<script src={% static "js/bootstrap.min.js" %}></script>
+<script src={% static "js/jquery.waypoints.min.js" %}></script>
+<script src={% static "js/jquery.stellar.min.js" %}></script>
+<script src={% static "js/owl.carousel.min.js" %}></script>
+<script src={% static "js/aos.js" %}></script>
+<script src={% static "js/scrollax.min.js" %}></script>
+<script src={% static "js/main.js" %}></script>
+    
+    
+
+</body>
+</html>

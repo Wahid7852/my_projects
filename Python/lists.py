@@ -1,5 +1,5 @@
 # A basic list
-# a list starts from 0 like array
+# a list starts from 0 like an array
 # it can store strings and bools too
 # marks = [2, 3, 4, "harry", True]
 
@@ -12,7 +12,7 @@ print(type(marks))
 print(marks[-2])
 
 # converting negative index to positive
-print(marks[len(marks)-2])
+print(marks[len(marks) - 2])
 
 if 4 in marks:
     print("yes")
@@ -28,5 +28,5 @@ print(marks[1:3])
 # lst = [i for i in range(4)]
 
 # now add conditions like only odd / even
-lst = [i for i in range(4) if i%2==0]
+lst = [i for i in range(4) if i % 2 == 0]
 print(lst)

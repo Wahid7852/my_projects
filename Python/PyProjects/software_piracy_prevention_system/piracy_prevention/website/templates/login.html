@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+{% include "./signup.html"%}
+<div id="loginScreen" class="modal">
+    <div class="row d-flex no-gutters align-items-stretch consult-wrap"  style="margin-top: 5%;margin-left:10%;width:80%">
+      <div class="col-md-5 wrap-about align-items-stretch d-flex"  style="margin-left: 30%;box-shadow: 3px 3px 3px 3px">
+            <div class="ftco-animate bg-primary align-self-stretch px-4 py-5 w-100 fadeInUp ftco-animated">
+              <h2 class="ftco-consult heading-white mb-4" style="color:white">Login</h2>
+              <button onclick="document.getElementById('loginScreen').style.display='none';" class="cancel">×</button>
+              <form class="appointment-form" method="POST">{% csrf_token %}
+                <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                  {{ login_form.email|add_class:"form-control"|attr:"placeholder:Email Address" }}
+                  {% for error in form.email.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+                  {{ login_form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+                  {% for error in form.password.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  <center><p style="color:red">{{message}}</p></center>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Login" name="LoggingIn" class="btn btn-secondary py-3 px-4">
+                </div>
+              </form>
+              <div class="appointment-form form-group" >
+                <button onclick="gotoSignup()" style="width:100%" class="nav-link btn btn-secondary py-3 px-4">
+                Signup</button>
+                </div>
+            </div>
+          </div>
+      </div>
+      </div>
+      <script>
+// Get the modal
+function gotoSignup(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('signupScreen').style.display='block';
+}
+</script>

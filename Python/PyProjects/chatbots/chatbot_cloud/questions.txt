@@ -1,0 +1,18 @@
+hi
+greeting
+goodbye
+what is your name?
+What is the wather?
+what is your age?
+favourite music
+favourite movie
+favourite food
+what is your hobby?
+what is the time?
+what is the date?
+favourite sport
+tell me a joke?
+what is your favourite color?
+what is your favourite book?
+what is your favourite game?
+what is your favourite subject?

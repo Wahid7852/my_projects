@@ -1,0 +1,54 @@
+ {% load widget_tweaks %}
+ <div id="signupScreen" class="modal">
+    <div class="row d-flex no-gutters align-items-stretch consult-wrap"  style="margin-top: 5%;margin-left:10%;width:80%">
+      <div class="col-md-5 wrap-about align-items-stretch d-flex"  style="margin-left: 30%;box-shadow: 3px 3px 3px 3px">
+            <div class="ftco-animate bg-primary align-self-stretch px-4 py-5 w-100 fadeInUp ftco-animated">
+              <h2 class="ftco-consult heading-white mb-4" style="color:white">Signup</h2>
+             <button onclick="document.getElementById('signupScreen').style.display='none';" class="cancel">×</button>
+              <form class="appointment-form" method="POST">{% csrf_token %}
+                <div class="form-group">
+                  {{ signup_form.first_name|add_class:"form-control"|attr:"placeholder:First Name" }}
+                  {% for error in form.first_name.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  {{ signup_form.last_name|add_class:"form-control"|attr:"placeholder:Last Name" }}
+                  {% for error in form.last_name.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  {{ signup_form.email|add_class:"form-control"|attr:"placeholder:Email Address" }}
+                  {% for error in form.email.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  {{ signup_form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+                  {% for error in form.password.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  <center><p style="color:red">{{message}}</p></center>
+                </div>
+                <div class="form-group">
+                  <input type="submit" name="SigningUp" value="Signup" class="btn btn-secondary py-3 px-4">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+// Get the modal
+var modal = document.getElementById('signupScreen');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
