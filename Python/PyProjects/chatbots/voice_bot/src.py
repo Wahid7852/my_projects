@@ -5,6 +5,7 @@ from datetime import date
 import wikipedia
 import webbrowser
 import pywhatkit
+import os
 
 engine = pyttsx3.init()
 
@@ -146,3 +147,24 @@ if __name__ == "__main__":
         elif 'sad song' in query:
             speak("playing a chosen sad song for you")
             webbrowser.open('https://youtu.be/rNhW1KwjqJw')
+
+        elif 'mail' in query:
+            speak('opening gmail')
+            webbrowser.open('gmail.com')
+
+        elif 'restart pc' in query:
+            speak('Restarting the system')
+            os.system('shutdown /r /t 1')
+
+        elif 'shutdown pc' in query:
+            speak('Shutting down the system')
+            os.system('shutdown /s /t 1')
+
+        elif 'exit' in query:
+            dialog6 = 'Thank you for using me, have a nice day'
+            print(dialog6)
+            speak(dialog6)
+            exit()
+
+        else:
+            speak('Sorry, I am not able to do that, please try again')
