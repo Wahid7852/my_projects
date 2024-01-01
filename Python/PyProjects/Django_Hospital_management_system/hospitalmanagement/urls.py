@@ -1,15 +1,3 @@
-"""
-
-Developed By : sumit kumar
-facebook : fb.com/sumit.luv
-Youtube :youtube.com/lazycoders
-
-
-"""
-
-
-
-
 from django.contrib import admin
 from django.urls import path
 from hospital import views

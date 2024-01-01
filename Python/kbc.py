@@ -13,12 +13,13 @@ questions = [ "What is the capital of India?\nOptions are:\n Delhi\n Mumbai\n Ko
 
 answers = ["delhi" , "mumbai" , "8" , "9.8"]
 
-a,b,c,d = "1000 Rs", "2000 Rs", "3000 Rs", "5000 Rs"
+a,b,c,d = 1000, 2000, 3000, 5000
+takehome = a+b+c+d
 
 answers1 = input(questions[0])
 if(answers1.lower() == answers[0]):
     print("Correct answer!")
-    print("You have won", a)
+    print("You have won", a, "Rs")
 
 else:
     print("Wrong answer!")
@@ -29,7 +30,7 @@ print("\nYour second question is:\n")
 answers2 = input(questions[1])
 if(answers2.lower() == answers[1]):
     print("Correct answer!")
-    print("You have won", b)
+    print("You have won", b, "Rs")
 
 else:
     print("Wrong answer!")
@@ -40,7 +41,7 @@ print("\nYour third question is:\n")
 answers3 = input(questions[2])
 if(answers3.lower() == answers[2]):
     print("Correct answer!")
-    print("You have won", c)
+    print("You have won", c, "Rs")
 
 else:
     print("Wrong answer!")
@@ -51,11 +52,11 @@ print("\nYour fourth question is:\n")
 answers4 = input(questions[3])
 if(answers4.lower() == answers[3]):
     print("Correct answer!")
-    print("You have won", d)
+    print("You have won", d, "Rs")
 
 else:
     print("Wrong answer!")
     print("You have lost the game!")
     exit()
 
-print("\nCongratulations", name, "you have won the game!\n")
+print("\nCongratulations", name, "you have won the game!\n You will be taking home", takehome, "Rs")

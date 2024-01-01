@@ -17,27 +17,23 @@ public:
     {
         head = nullptr;
     }
-
     void insert(int data)
     {
         Node *temp = new Node();
         temp->data = data;
         temp->next = nullptr;
 
-        if (head == nullptr)
-        {
+        if (head == nullptr) {
             head = temp;
             return;
         }
 
         Node *temp1 = head;
-        while (temp1->next != nullptr)
-        {
+        while (temp1->next != nullptr) {
             temp1 = temp1->next;
         }
         temp1->next = temp;
     }
-
     void display()
     {
         Node *temp = head;
@@ -48,7 +44,6 @@ public:
         }
         cout << "nullptr" << endl;
     }
-
     void insertAtBeginning(int data)
     {
         Node *temp = new Node();
@@ -56,7 +51,6 @@ public:
         temp->next = head;
         head = temp;
     }
-
     void insertAtPosition(int data, int position)
     {
         if (position <= 0)
@@ -92,7 +86,6 @@ public:
         temp->next = temp1->next;
         temp1->next = temp;
     }
-
     void deleteNode(int position)
     {
         if (head == nullptr)
@@ -130,7 +123,6 @@ public:
         temp->next = temp1->next;
         delete temp1;
     }
-
     void searchAndDisplay(int target)
     {
         Node *current = head;
@@ -145,7 +137,6 @@ public:
         }
         cout << "Not found " << target << endl;
     }
-
     ~LinkedList()
     {
         Node *temp = head;

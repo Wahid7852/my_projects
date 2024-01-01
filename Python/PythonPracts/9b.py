@@ -1,0 +1,22 @@
+import tkinter as tk
+
+root = tk.Tk()
+
+label = tk.Label(root, text="Label", bg="red", font=("Times", 18))
+label.pack()
+message = tk.Message(root, text="This is a Message widget", width=200)
+message.pack()
+button = tk.Button(root, text="Button", bg="blue", fg="white", font=("Arial", 14))
+button.pack()
+entry = tk.Entry(root, width=20)
+entry.pack()
+checkbutton = tk.Checkbutton(root, text="Check me")
+checkbutton.pack()
+radio_var = tk.StringVar()
+radio_button1 = tk.Radiobutton(root, text="Option 1", variable=radio_var, value="Option 1")
+radio_button2 = tk.Radiobutton(root, text="Option 2", variable=radio_var, value="Option 2")
+radio_button1.pack()
+radio_button2.pack()
+scale = tk.Scale(root, from_=0, to=100, orient="horizontal")
+scale.pack()
+root.mainloop()

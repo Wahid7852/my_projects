@@ -6,16 +6,17 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 class Ui_MainWindow(object):
     """Main window GUI."""
+
     def __init__(self):
         """Initialisation function."""
         self.mp4_file_name = ""
         self.output_file = ""
         self.audio_file = "speech.wav"
+
     def setupUi(self, MainWindow):
-        """Define visual components and positions."""
         # Main window
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(653, 836)
+        MainWindow.setObjectName("Extract Text from Video")
+        MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -57,7 +58,7 @@ class Ui_MainWindow(object):
         font.setPointSize(14)
         self.transcribe_button.setFont(font)
         self.transcribe_button.setObjectName("transcribe_button")
-     self.transcribe_button.clicked.connect(self.process_and_transcribe_audio)
+        self.transcribe_button.clicked.connect(self.process_and_transcribe_audio)
         # progeress bar
         self.progress_bar = QtWidgets.QProgressBar(self.centralwidget)
         self.progress_bar.setGeometry(QtCore.QRect(230, 250, 381, 23))
@@ -94,9 +95,9 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionOpen_mp4_video_recording = QtWidgets.QAction(MainWindow)
         self.actionOpen_mp4_video_recording.setObjectName("actionOpen_mp4_video_recording")
- self.actionOpen_mp4_video_recording.triggered.connect(self.open_audio_file)
+        self.actionOpen_mp4_video_recording.triggered.connect(self.open_audio_file)
         self.actionAbout_vid2text = QtWidgets.QAction(MainWindow)
-       self.actionAbout_vid2text.setObjectName("actionAbout_vid2text")
+        self.actionAbout_vid2text.setObjectName("actionAbout_vid2text")
         self.actionAbout_vid2text.triggered.connect(self.show_about)
         self.actionNew = QtWidgets.QAction(MainWindow)
         self.actionNew.setObjectName("actionNew")
@@ -108,22 +109,22 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAbout.menuAction())
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    
     def retranslateUi(self, MainWindow):
-        """Translate UI method."""
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("Extract Text from Video", "Extract Text from Video"))
         self.label.setText(_translate("MainWindow", "Selected video file:"))
         self.label_3.setText(_translate("MainWindow", "Output file name:"))
         self.label_5.setText(_translate("MainWindow", "Transcribed text:"))
         self.transcribe_button.setText(_translate("MainWindow", "Transcribe"))
-      self.output_file_name.setPlaceholderText(_translate("MainWindow", "interview1.txt"))
+        self.output_file_name.setPlaceholderText(_translate("MainWindow", "interview1.txt"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
-     self.actionOpen_mp4_video_recording.setText(_translate("MainWindow", "Open mp4 video recording"))
-        self.actionAbout_vid2text.setText(_translate("MainWindow", "About vid2text"))
+        self.actionOpen_mp4_video_recording.setText(_translate("MainWindow", "Open mp4 video recording"))
+        self.actionAbout_vid2text.setText(_translate("MainWindow", "About the project"))
         self.actionNew.setText(_translate("MainWindow", "New"))
+
     def open_audio_file(self):
-        """Open the audio (*.mp4) file."""
         file_name = QFileDialog.getOpenFileName()
         if file_name[0][-3:] == "mp4":
             self.transcribe_button.setEnabled(True)
@@ -132,21 +133,21 @@ class Ui_MainWindow(object):
             self.selected_video_label.setText(file_name[0])
         else:
             self.message_label.setText("Please select an *.mp4 file")
+    
     def convert_mp4_to_wav(self):
-        """Convert the mp4 video file into an audio file."""
         self.message_label.setText("Converting mp4 to audio (*.wav)...")
         self.convert_thread = convertVideoToAudioThread(self.mp4_file_name, self.audio_file)
         self.convert_thread.finished.connect(self.finished_converting)
         self.convert_thread.start()
+    
     def get_audio_duration(self, audio_file):
-        """Determine the length of the audio file."""
         with contextlib.closing(wave.open(audio_file,'r')) as f:
             frames = f.getnframes()
             rate = f.getframerate()
             duration = frames / float(rate)
             return duration
+    
     def transcribe_audio(self, audio_file):
-        """Transcribe the audio file."""
         total_duration = self.get_audio_duration(audio_file) / 10
         total_duration = math.ceil(total_duration)
         self.td = total_duration
@@ -159,72 +160,70 @@ class Ui_MainWindow(object):
         self.thread.finished.connect(self.finished_transcribing)
         self.thread.change_value.connect(self.set_progress_value)
         self.thread.start()
+    
     def finished_converting(self):
-        """Reset message text when conversion is finished."""
         self.message_label.setText("Transcribing file...")
         self.transcribe_audio(self.audio_file)
+    
     def finished_transcribing(self):
-        """This run when transcription finished to tidy up UI."""
         self.progress_bar.setValue(100)
         self.transcribe_button.setEnabled(True)
         self.message_label.setText("")
         self.update_text_output()
+    
     def set_progress_value(self, val):
-        """Update progress bar value."""
         increment = int(math.floor(100*(float(val)/self.td)))
         self.progress_bar.setValue(increment)
+    
     def process_and_transcribe_audio(self):
-        """Process the audio into a textual transcription."""
         self.transcribe_button.setEnabled(False)
         self.message_label.setText("Converting mp4 to audio (*.wav)...")
         self.convert_mp4_to_wav()
+    
     def update_text_output(self):
-        """Update the text box with the transcribed file."""
         f = open(self.output_file, "r")
         self.transcribed_text.setText(f.read())
         f.close()
+    
     def new_project(self):
-        """Clear existing fields of data."""
         self.message_label.setText("")
         self.transcribed_text.setText("")
         self.selected_video_label.setText("")
         self.output_file_name.document().setPlainText("")
         self.progress_bar.setValue(0)
+
     def show_about(self):
-        """Show about message box."""
         msg = QMessageBox()
-        msg.setWindowTitle("About vid2speech")
-        msg.setText(" Created by Dr. Alan Davies,\n Senior Lecturer,\n Health Data Science,\n Manchester University, UK")
+        msg.setWindowTitle("About the project")
+        msg.setText(" Created to extract text from videos.")
         msg.setIcon(QMessageBox.Information)
         msg.exec_()
+
 class convertVideoToAudioThread(QThread):
-    """Thread to convert mp4 video file to wav file."""
     def __init__(self, mp4_file_name, audio_file):
-        """Initialization function."""
         QThread.__init__(self)
         self.mp4_file_name = mp4_file_name
         self.audio_file = audio_file
+
     def __del__(self):
-        """Destructor."""
         self.wait()
+
     def run(self):
-        """Run video conversion task."""
         audio_clip = AudioFileClip(self.mp4_file_name)
         audio_clip.write_audiofile(self.audio_file)
+
 class transcriptionThread(QThread):
-    """Thread to transcribe file from audio to text."""
     change_value = pyqtSignal(int)
     def __init__(self, total_duration, audio_file, output_file):
-        """Initialization function."""
         QThread.__init__(self)
         self.total_duration = total_duration
         self.audio_file = audio_file
         self.output_file = output_file
+
     def __del__(self):
-        """Destructor."""
         self.wait()
+
     def run(self):
-        """Run transcription, audio to text."""
         r = sr.Recognizer()
         for i in range(0, self.total_duration):
             try:
@@ -238,6 +237,7 @@ class transcriptionThread(QThread):
                 print("Unknown word detected...")
                 continue
             f.close()
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

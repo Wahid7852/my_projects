@@ -1,18 +1,3 @@
-
-# Hospital Management
-![developer](https://img.shields.io/badge/Developed%20By%20%3A-Sumit%20Kumar-red)
----
-## screenshots
-### Homepage
-![homepage snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/homepage.png?raw=true)
-### Admin Dashboard
-![dashboard snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/admin_dashboard.png?raw=true)
-### Invoice
-![invoice snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/invoice.png?raw=true)
-### Doctor list
-![doctor snap](https://github.com/sumitkumar1503/hospitalmanagement/blob/master/static/screenshots/admin_doctor.png?raw=true)
----
-## Functions
 ### Admin
 - Signup their account. Then Login (No approval Required).
 - Can register/view/approve/reject/delete doctor (approve those doctor who applied for job in their hospital).
@@ -47,15 +32,10 @@ pip install xhtml2pdf
 - Download This Project Zip Folder and Extract it
 - Move to project folder in Terminal. Then run following Commands :
 ```
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
 ```
-- Now enter following URL in Your Browser Installed On Your Pc
-```
-http://127.0.0.1:8000/
-```
-
 ## CHANGES REQUIRED FOR CONTACT US PAGE
 - In settins.py file, You have to give your email and password
 ```
@@ -63,19 +43,36 @@ EMAIL_HOST_USER = 'youremail@gmail.com'
 EMAIL_HOST_PASSWORD = 'your email password'
 EMAIL_RECEIVING_USER = 'youremail@gmail.com'
 ```
-- Login to gmail through host email id in your browser and open following link and turn it ON
-```
-https://myaccount.google.com/lesssecureapps
-```
-## Drawbacks/LoopHoles
-- Any one can be Admin. There is no Approval required for admin account. So you can disable admin signup process and use any logic like creating superuser.
-- There should be at least one doctor in hospital before admitting patient. So first add doctor.
-- On update page of doctor/patient you must have to update password.
+ - To get these, follow the steps here
+ To obtain the required client ID and client secret for Google OAuth 2.0, you'll need to create a project in the Google Cloud Console, set up the OAuth credentials, and generate these values. Here are the steps to get these credentials:
+1. **Go to the Google Cloud Console**:
+   Visit the Google Cloud Console at https://console.cloud.google.com/ and log in with your Google account.
 
-## Disclaimer
-This project is developed for demo purpose and it's not supposed to be used in real application.
+2. **Create a New Project**:
+   If you don't already have a project, create a new one by clicking the project drop-down and selecting "New Project." Give your project a name and select your organization if necessary.
 
-## Feedback
-Any suggestion and feedback is welcome. You can message me on facebook
-- [Contact on Facebook](https://fb.com/sumit.luv)
-- [Subscribe my Channel LazyCoder On Youtube](https://youtube.com/lazycoders)
+3. **Enable the Gmail API**:
+   In your project, navigate to the "APIs & Services" section and click on "Library" on the left sidebar. Search for "Gmail API" and click on it. Then, click the "Enable" button to enable the Gmail API for your project.
+
+4. **Create OAuth 2.0 Credentials**:
+   - In the Google Cloud Console, navigate to "APIs & Services" > "Credentials."
+   - Click the "Create Credentials" button and select "OAuth client ID."
+   - Choose "Web application" as the application type.
+
+5. **Configure the OAuth Consent Screen**:
+   - You might be prompted to configure the OAuth consent screen. Fill in the necessary information, such as the "App name" and "User support email." Save your changes.
+
+6. **Set Authorized JavaScript Origins and Redirect URIs**:
+   - In the OAuth 2.0 Client ID creation form, you need to set authorized JavaScript origins and redirect URIs.
+   - For authorized JavaScript origins, add your development server's URL, e.g., `http://localhost:8000`.
+   - For redirect URIs, add the callback URL for your Django application. It could be something like `http://localhost:8000/auth/callback/google/` if you are running a local development server.
+
+7. **Get Your Client ID and Client Secret**:
+   After completing the setup, Google will provide you with a client ID and client secret. These are the values you need to replace 'YOUR_CLIENT_ID' and 'YOUR_CLIENT_SECRET' in your Django settings.
+
+8. **Generate an App Password for Gmail**:
+   To securely use Gmail as your email provider, generate an "app password" for your Gmail account:
+   - Go to your Google Account settings: https://myaccount.google.com/security.
+   - Under "Security," find "App passwords" and generate a unique app password for your application. This is the password to replace 'your-app-password' in your Django settings.
+
+Once you have these credentials, you can use them in your Django project as described in the previous code samples. Remember to keep these credentials secure, and do not share them publicly.
